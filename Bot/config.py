@@ -10,3 +10,4 @@ WATERMARK = (
 )
 
 COLOR = (0, 0, 0)
+ARCHIVE_NAME = 'result.zip'
