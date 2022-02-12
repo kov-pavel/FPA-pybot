@@ -7,7 +7,7 @@ numpy==1.22.2
 onnx==1.10.2
 onnxruntime==1.10.0
 opencv-python==4.5.5.62
-Pillow==9.0.1
+Pillow
 protobuf==3.19.4
 pyTelegramBotAPI==4.4.0
 PyWavelets==1.2.0
