@@ -1,8 +1,5 @@
-TODO(✅):
+✅Мы молодцы!✅
 
-✅1) Реализовать сохранение поступающих имён файлов и их расширений (сейчас входной файл типа "arm.txt" возвращается как "document"; в качестве основы брать функцию "edit_doc");        
-2) С помощью библиотеки <b>imwatermark</b> (https://pypi.org/project/invisible-watermark/) реализовать функцию has_wm, на вход которой поступает фотография, проверяющая, содержит ли она вотермарку (предположительно: при декодировании вотермарки её размер равен нулю, либо она не равна нашей фиксированной вотермарке).
-
-Библиотека бота: https://github.com/eternnoir/pyTelegramBotAPI
-
-cv2 (aka OpenCV in Python): https://habr.com/ru/post/519454/
+<b>imwatermark</b> - https://pypi.org/project/invisible-watermark/      
+<b>Библиотека бота</b> - https://github.com/eternnoir/pyTelegramBotAPI     
+<b>cv2 (aka OpenCV in Python)</b> - https://habr.com/ru/post/519454/
