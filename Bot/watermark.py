@@ -1,6 +1,6 @@
 from PIL import Image
 from io import BytesIO
-from config import WATERMARK, COLOR, HEIGHT_THRESHOLD, WIDTH_THRESHOLD, OVERALL_THRESHOLD
+from config import WATERMARK, HEIGHT_THRESHOLD, WIDTH_THRESHOLD, OVERALL_THRESHOLD
 from morse import Morse
 
 
@@ -15,7 +15,7 @@ def apply_watermark(file) -> bytes:
         px = img.load()
 
         for index, value in enumerate(WATERMARK):
-            if value == Morse.DOT:
+            if value == '•':
                 # Точки снизу
                 create_dot(px, index * chunk_width + chunk_width // 2, img.height - dot_size_width, dot_size_width)
                 # Точки посередине
@@ -23,7 +23,7 @@ def apply_watermark(file) -> bytes:
                 # Точки слева
                 create_dot(px, 0, index * chunk_height + chunk_height // 2, dot_size_height)
                 # px[index * length + length // 2, img.height - 1] = COLOR
-            elif value == Morse.DASH:
+            elif value == '−':
                 # Точки сверху
                 create_dot(px, index * chunk_width + chunk_width // 2, 0, dot_size_width)
                 # Точки посередине
