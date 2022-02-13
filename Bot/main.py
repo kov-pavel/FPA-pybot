@@ -1,4 +1,3 @@
-import io
 import telebot
 from zipfile import ZipFile
 from io import BytesIO

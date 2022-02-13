@@ -1,7 +1,6 @@
 from PIL import Image
 from io import BytesIO
 from config import WATERMARK, HEIGHT_THRESHOLD, WIDTH_THRESHOLD, OVERALL_THRESHOLD
-from morse import Morse
 
 
 def apply_watermark(file) -> bytes:

@@ -1,6 +1,4 @@
-from morse import Morse
-
-WATERMARK = "− •−• • −• −••"
+WATERMARK = "••−• •• −• − •−• • •−−− −•• •• −• −−•"
 
 WIDTH_THRESHOLD = 1200
 HEIGHT_THRESHOLD = 1200
