@@ -17,18 +17,28 @@ def apply_watermark(file) -> bytes:
             if value == '•':
                 # Точки снизу
                 create_dot(px, index * chunk_width + chunk_width // 2, img.height - dot_size_width, dot_size_width)
-                # Точки посередине
-                create_dot(px, index * chunk_width + chunk_width // 2, img.height // 2 + img.height // 6, dot_size_middle)
-                # Точки слева
-                create_dot(px, 0, index * chunk_height + chunk_height // 2, dot_size_height)
+                # горизонтальные точки посередине ближе к верху
+                create_dot(px, index * chunk_width + chunk_width // 2, img.height // 2 + img.height // 6,
+                           dot_size_middle)
+                # Вертикальные точки посередине ближе к левому краю
+                create_dot(px, img.width // 2 - img.width // 6, index * chunk_height + chunk_height // 2,
+                           dot_size_middle)
+
+                # Точки слева (отключены)
+                # create_dot(px, 0, index * chunk_height + chunk_height // 2, dot_size_height)
                 # px[index * length + length // 2, img.height - 1] = COLOR
             elif value == '−':
-                # Точки сверху
-                create_dot(px, index * chunk_width + chunk_width // 2, 0, dot_size_width)
-                # Точки посередине
-                create_dot(px, index * chunk_width + chunk_width // 2, img.height // 2 - img.height // 6, dot_size_middle)
                 # Точки справа
                 create_dot(px, img.width - dot_size_height, index * chunk_height + chunk_height // 2, dot_size_height)
+                # горизонтальные точки посередине ближе к низу
+                create_dot(px, index * chunk_width + chunk_width // 2, img.height // 2 - img.height // 6,
+                           dot_size_middle)
+                # Вертикальные точки посередине ближе к правому краю
+                create_dot(px, img.width // 2 + img.width // 6, index * chunk_height + chunk_height // 2,
+                           dot_size_middle)
+
+                # Точки сверху (отключены)
+                # create_dot(px, index * chunk_width + chunk_width // 2, 0, dot_size_width)
                 # px[index * length + length // 2, 0] = COLOR
 
         result = BytesIO()
