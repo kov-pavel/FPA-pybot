@@ -10,21 +10,6 @@ from watermark import apply_watermark
 from config import ARCHIVE_NAME
 
 bot = telebot.TeleBot("5129621356:AAFPoKs4SPEcU299zaJscEEXJwEgS8efxm4")
-try:
-    connect = sqlite3.connect("d:\\labs\\bot\\FPA-pybot\\Bot\\users.db")
-    cursor = connect.cursor()
-
-    cursor.execute("""CREATE TABLE IF NOT EXISTS users 
-        (id BIGINT,
-        word BOOLEAN,
-        UNIQUE(id)
-        );
-        """)
-
-    connect.commit()
-finally:
-    cursor.close()
-    connect.close()
 
 
 @bot.message_handler(commands=['start'])
@@ -54,25 +39,20 @@ def send_help(msg):
 
 
 def change_word(msg):
-    try:
-        connect = sqlite3.connect("d:\\labs\\bot\\FPA-pybot\\Bot\\users.db")
+    with sqlite3.connect(get_path()) as connect:
         cursor = connect.cursor()
         if msg.text == "Тренд":
             cursor.execute("""INSERT OR REPLACE INTO users (id, word)
-                                     VALUES ({id}, {value});
-                         """.format(id=msg.chat.id, value=0))
+                                         VALUES ({id}, {value});
+                             """.format(id=msg.chat.id, value=0))
             bot.reply_to(msg, "Кодовое слово изменено на Тренд", reply_markup=None)
         elif msg.text == "Финтрендинг":
             cursor.execute("""INSERT OR REPLACE INTO users (id, word)
-                               VALUES ({id}, {value});
-                   """.format(id=msg.chat.id, value=1))
+                                   VALUES ({id}, {value});
+                       """.format(id=msg.chat.id, value=1))
             bot.reply_to(msg, "Кодовое слово изменено на Финтрендинг", reply_markup=None)
         else:
             bot.reply_to(msg, "Неправильное слово\n", reply_markup=None)
-    finally:
-        connect.commit()
-        cursor.close()
-        connect.close()
 
 
 @bot.message_handler(content_types=['document'])
@@ -110,20 +90,36 @@ def edit_photo(message):
         print("Error: ", ex)
 
 
-def get_watermark_type(user_id):
-    try:
-        connect = sqlite3.connect("d:\\labs\\bot\\FPA-pybot\\Bot\\users.db")
+def initialize_function():
+    with sqlite3.connect(get_path()) as connect:
         cursor = connect.cursor()
-        cursor.execute(f"""SELECT word FROM users WHERE id={user_id}""");
+        cursor.execute("""CREATE TABLE IF NOT EXISTS users 
+                    (id BIGINT,
+                    word BOOLEAN,
+                    UNIQUE(id)
+                    );""")
+        connect.commit()
+
+
+def get_path():
+    path = os.path.realpath(__file__)
+    path = path.removesuffix(os.path.basename(__file__))
+    path = os.path.join(path, "users.db")
+    path = r"{}".format(path)
+    return path
+
+
+def get_watermark_type(user_id):
+    with sqlite3.connect(get_path()) as connect:
+        cursor = connect.cursor()
+        cursor.execute(f"""SELECT word FROM users WHERE id={user_id};""")
         type = cursor.fetchone()
         if type is None:
             return 0
         else:
             return type[0]
-    finally:
-        connect.commit()
-        cursor.close()
-        connect.close()
 
+
+initialize_function()
 
 bot.infinity_polling()
