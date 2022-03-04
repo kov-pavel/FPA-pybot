@@ -1,12 +1,8 @@
-import contextlib
-
 import telebot
 import sqlite3
 from zipfile import ZipFile
 from io import BytesIO
 import os
-
-from telebot import types
 
 from watermark import apply_watermark
 from config import ARCHIVE_NAME
