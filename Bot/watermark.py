@@ -8,7 +8,6 @@ def apply_watermark(file, watermark_type) -> bytes:
         WATERMARK = WATERMARK0
     else:
         WATERMARK = WATERMARK1
-    print(WATERMARK)
     with Image.open(BytesIO(file)) as img:
         chunk_width = img.width // len(WATERMARK)
         chunk_height = img.height // len(WATERMARK)
