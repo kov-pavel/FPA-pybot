@@ -1,3 +1,5 @@
+import contextlib
+
 import telebot
 import sqlite3
 from zipfile import ZipFile
@@ -40,14 +42,13 @@ def send_help(msg):
 
 def change_word(msg):
     with sqlite3.connect(get_path()) as connect:
-        cursor = connect.cursor()
         if msg.text == "Тренд":
-            cursor.execute("""INSERT OR REPLACE INTO users (id, word)
+            connect.execute("""INSERT OR REPLACE INTO users (id, word)
                                          VALUES ({id}, {value});
                              """.format(id=msg.chat.id, value=0))
             bot.reply_to(msg, "Кодовое слово изменено на Тренд", reply_markup=None)
         elif msg.text == "Финтрендинг":
-            cursor.execute("""INSERT OR REPLACE INTO users (id, word)
+            connect.execute("""INSERT OR REPLACE INTO users (id, word)
                                    VALUES ({id}, {value});
                        """.format(id=msg.chat.id, value=1))
             bot.reply_to(msg, "Кодовое слово изменено на Финтрендинг", reply_markup=None)
@@ -92,12 +93,11 @@ def edit_photo(message):
 
 def initialize_function():
     with sqlite3.connect(get_path()) as connect:
-        cursor = connect.cursor()
-        cursor.execute("""CREATE TABLE IF NOT EXISTS users 
-                    (id BIGINT,
-                    word BOOLEAN,
-                    UNIQUE(id)
-                    );""")
+        connect.execute("""CREATE TABLE IF NOT EXISTS users 
+                        (id BIGINT,
+                        word BOOLEAN,
+                        UNIQUE(id)
+                        );""")
         connect.commit()
 
 
@@ -111,9 +111,7 @@ def get_path():
 
 def get_watermark_type(user_id):
     with sqlite3.connect(get_path()) as connect:
-        cursor = connect.cursor()
-        cursor.execute(f"""SELECT word FROM users WHERE id={user_id};""")
-        type = cursor.fetchone()
+        type = connect.execute(f"""SELECT word FROM users WHERE id={user_id};""").fetchone()
         if type is None:
             return 0
         else:
