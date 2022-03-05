@@ -1,7 +1,6 @@
 import os
 from enum import Enum
 
-SECRET_KEY = os.getenv('BOT_KEY', '5153674059:AAEalt9a5eK9GC9JlD9u9F-oqHz91utC5l4')
 WATERMARKS = {
     'Тренд': "− •−• • −• −••",
     'Финтрендинг': "••−• •• −• − •−• • −• −•• •• −• −−•"
