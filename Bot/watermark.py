@@ -3,21 +3,18 @@ from io import BytesIO
 from config import WATERMARKS, HEIGHT_THRESHOLD, WIDTH_THRESHOLD, OVERALL_THRESHOLD
 
 
-def apply_watermark(file, watermark_type) -> bytes:
-    if watermark_type == 0:
-        WATERMARK = WATERMARKS[0]
-    else:
-        WATERMARK = WATERMARKS[1]
+def apply_watermark(file, watermark_type: str) -> bytes:
+    watermark = WATERMARKS.get(watermark_type)
     with Image.open(BytesIO(file)) as img:
-        chunk_width = img.width // len(WATERMARK)
-        chunk_height = img.height // len(WATERMARK)
+        chunk_width = img.width // len(watermark)
+        chunk_height = img.height // len(watermark)
         # Точки не должны быть слишком маленькие, чтобы они не затерлись
         dot_size_height = img.height // HEIGHT_THRESHOLD + 1
         dot_size_width = img.width // WIDTH_THRESHOLD + 1
         dot_size_middle = img.width * img.height // OVERALL_THRESHOLD + 1
         px = img.load()
 
-        for index, value in enumerate(WATERMARK):
+        for index, value in enumerate(watermark):
             if value == '•':
                 # Точки по главной диагонали
                 create_dot(px, index * chunk_width + chunk_width // 2,
