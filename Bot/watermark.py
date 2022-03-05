@@ -1,9 +1,13 @@
 from PIL import Image
 from io import BytesIO
-from config import WATERMARK, HEIGHT_THRESHOLD, WIDTH_THRESHOLD, OVERALL_THRESHOLD
+from config import WATERMARKS, HEIGHT_THRESHOLD, WIDTH_THRESHOLD, OVERALL_THRESHOLD
 
 
-def apply_watermark(file) -> bytes:
+def apply_watermark(file, watermark_type) -> bytes:
+    if watermark_type == 0:
+        WATERMARK = WATERMARKS[0]
+    else:
+        WATERMARK = WATERMARKS[1]
     with Image.open(BytesIO(file)) as img:
         chunk_width = img.width // len(WATERMARK)
         chunk_height = img.height // len(WATERMARK)
