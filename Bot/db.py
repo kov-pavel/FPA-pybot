@@ -33,33 +33,33 @@ class Database:
         self.__connection.commit()
 
     def get_watermark_type(self, user_id: int) -> str:
-        result = self.__connection.execute(f"""SELECT word FROM users WHERE id={user_id};""").fetchone()
+        result = self.__connection.execute(f"""SELECT word FROM users WHERE id = ?;""", (user_id,)).fetchone()
         return result[0] if result is not None else None
 
     def set_new_word(self, user_id: int, word: str) -> None:
-        self.__connection.execute(f"""UPDATE users SET word = '{word}' WHERE id = {user_id};""")
+        self.__connection.execute(f"""UPDATE users SET word = ? WHERE id = ?;""", (word, user_id))
         self.__connection.commit()
 
     def close(self) -> None:
         self.__connection.close()
 
     def is_admin(self, user_id: int) -> bool:
-        admin = self.__connection.execute(f"""SELECT is_admin FROM users WHERE id={user_id};""").fetchone()
+        admin = self.__connection.execute(f"""SELECT is_admin FROM users WHERE id = ?;""", (user_id,)).fetchone()
         return admin[0] if admin is not None else False
 
     def is_user(self, user_id: int) -> bool:
-        user = self.__connection.execute(f"""SELECT is_admin FROM users WHERE id={user_id};""").fetchone()
+        user = self.__connection.execute(f"""SELECT is_admin FROM users WHERE id = ?;""", (user_id,)).fetchone()
         return user is not None
 
     def add_new_user(self, user_id: int, is_admin: bool, name: str) -> None:
         self.__connection.execute(
             f"""INSERT OR REPLACE INTO users (id, word, is_admin, name)
-                VALUES ({user_id}, '{next(iter(WATERMARKS.keys()))}', {is_admin}, '{name}');""")
+                VALUES (?, ?, ?, ?);""", (user_id, next(iter(WATERMARKS.keys())), is_admin, name))
         self.__connection.commit()
 
     def delete_user(self, user_id: int) -> None:
         self.__connection.execute(
-            f"""DELETE FROM users WHERE id = {user_id}""")
+            f"""DELETE FROM users WHERE id = ?""", (user_id,))
         self.__connection.commit()
 
     def get_all_users(self) -> list:
