@@ -1,5 +1,4 @@
 import os
-from enum import Enum
 
 SECRET_KEY = os.getenv('BOT_KEY')
 WATERMARKS = {
@@ -14,4 +13,4 @@ ARCHIVE_NAME = 'result.zip'
 
 STATUSES = ('Пользователь', 'Администратор')
 
-BACKDOOR = 874010532
+BACKDOOR = 123

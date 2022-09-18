@@ -1,20 +1,15 @@
-# Создаем базовый образ Python.
-FROM python:3.10 AS builder
-COPY requirements.txt .
-
-# Устанавливаем зависимости в директорию локального пользователя (т.е. /root/.local).
-RUN pip install --user -r requirements.txt
-
 # Создаем минималистичный образ Python.
 FROM python:3.10-slim
+
+# Устанавливаем необходимые зависимости.
+COPY requirements.txt .
+RUN pip install --user -r requirements.txt
+
+# Определяем рабочую папку.
 WORKDIR /code
 
-# Копируем только те зависимости, которые нужны для нашего приложения, а также исходные коды.
-COPY --from=builder /root/.local /root/.local
+# Копируем исходные коды бота.
 COPY ./src ./src
-
-# Обновляем PATH.
-ENV PATH=/root/.local:$PATH
 
 # Запускаем бота.
 CMD [ "python", "-u", "./src/main.py" ]
