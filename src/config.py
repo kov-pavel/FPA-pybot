@@ -12,5 +12,3 @@ OVERALL_THRESHOLD = 2073600
 ARCHIVE_NAME = 'result.zip'
 
 STATUSES = ('Пользователь', 'Администратор')
-
-BACKDOOR = 123
