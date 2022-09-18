@@ -1,7 +1,7 @@
 import sqlite3
 import os
 
-from Bot.config import WATERMARKS
+from config import WATERMARKS
 
 
 class Database:
